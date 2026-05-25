@@ -1,0 +1,13 @@
+venv/
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+.env
+__pycache__/
+*.pyc
+# Logs
+
+logs
+*.log
