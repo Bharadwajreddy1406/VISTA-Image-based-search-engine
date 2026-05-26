@@ -1,0 +1,8 @@
+include:
+  - docker-compose.postgres.yaml
+  - docker-compose.minio.yaml
+  - docker-compose.milvus.yaml
+
+networks:
+  vista-network:
+    name: vista-network
