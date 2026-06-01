@@ -53,7 +53,6 @@ class ImageHandlerService:
                     raise
 
         image_embedding = await self.embedding_service.get_embedding(image_bytes)
-        breakpoint()
         search_results = await self.vector_store.search(image_embedding)
 
         image_urls = self.get_image_urls(search_results)

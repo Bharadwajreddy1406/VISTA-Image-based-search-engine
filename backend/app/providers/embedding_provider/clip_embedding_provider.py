@@ -102,8 +102,6 @@ class CLIPEmbeddingProvider(BaseEmbeddingProvider):
             )
         )
 
-        breakpoint()
-
         return (
             embedding
             .squeeze()
