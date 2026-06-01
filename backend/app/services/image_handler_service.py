@@ -20,6 +20,8 @@ class ImageHandlerService:
         self.vector_store = vector_store or VectorStoreFactory.get_provider()
         self.embedding_service = embedding_service or EmbeddingFactory.get_provider()
 
+# region Retreival
+
     async def search(self, file: UploadFile, user_consent: bool = False):
 
         if not self.object_store.bucket_exists():
@@ -63,6 +65,44 @@ class ImageHandlerService:
                 db.rollback()
                 raise
 
+# region Ingestion
+
+    @staticmethod
+    def ingest_images():
+        # we get the images with pending status, embedding, and insert those embeddings into vector store
+        with SessionLocal() as db:
+            pending_images = db.query(ImageRegistry).filter(ImageRegistry.status == ImageIngestionStates.PENDING.value).all()
+            for image in pending_images:
+                try:
+                    # download image from object storage
+                    temp_path = f"/tmp/{image.id}"
+                    ObjectStoreFactory.get_provider().download_file(image.object_path, temp_path)
+
+                    # TODO Hashing and Perceptual Hashing and metadata_storing implementation here
+                    ImageHandlerService.extract_and_store_metadata(temp_path, image.id)
+                    # get embedding
+                    with open(temp_path, "rb") as f:
+                        image_bytes = f.read()
+                    embedding = EmbeddingFactory.get_provider().get_embedding(image_bytes)
+
+                    # insert into vector store
+                    VectorStoreFactory.get_provider().insert(image_id=image.id, embedding=embedding)
+
+                    # update status to ingested
+                    image.status = ImageIngestionStates.INGESTED.value
+                    db.commit()
+                except Exception as e:
+                    print(f"Error ingesting image {image.id}: {e}")
+                    db.rollback()
+
+    @staticmethod
+    def extract_and_store_metadata(image_path: str, image_id: uuid.UUID):
+        # Placeholder for metadata extraction logic (e.g., hashing, perceptual hashing)
+        # For now, we just print the action
+        print(f"Extracting metadata for image {image_id} at {image_path}")
+
+
+# region helpers
 
 async def get_image_urls(search_results: list[str]) -> list[str]:
     if len(search_results) == 0:
