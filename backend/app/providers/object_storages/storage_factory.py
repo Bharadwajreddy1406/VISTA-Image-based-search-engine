@@ -12,7 +12,7 @@ class ObjectStoreFactory:
         provider_type = settings.OBJECT_STORAGE_PROVIDER
 
         match provider_type:
-            case ObjectStorageProviderChoices.MINIO.value:
+            case ObjectStorageProviderChoices.MINIO:
                 from app.providers.object_storages.minio_provider import MinIOProvider
                 cls._provider = MinIOProvider()
             case _:

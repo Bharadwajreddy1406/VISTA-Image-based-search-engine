@@ -3,8 +3,8 @@ from abc import ABC, abstractmethod
 class BaseObjectStorageProvider(ABC):
     
     @abstractmethod
-    def upload_file(self, file_path: str | None, object_name: str, file_data: bytes | None) -> str:
-        """Uploads a file to the object storage and returns the URL."""
+    def upload_file(self, file_data: bytes, object_name: str, content_type: str | None = None) -> str:
+        """Uploads raw file bytes to object storage and returns the object path."""
         pass
 
     @abstractmethod
@@ -19,7 +19,7 @@ class BaseObjectStorageProvider(ABC):
         pass 
 
     @abstractmethod
-    def generate_access_url(self, object_name: str) -> str:
+    def generate_obj_url(self, object_name: str) -> str:
         """Generates a URL for accessing the file in the object storage."""
         pass
 
@@ -31,3 +31,13 @@ class BaseObjectStorageProvider(ABC):
             return True
         except Exception:
             return False
+
+    @abstractmethod
+    def bucket_exists(self) -> bool:
+        """Checks if the bucket exists in the object storage."""
+        pass
+
+    @abstractmethod
+    def create_bucket_if_not_exists(self) -> bool:
+        """Creates the bucket if it does not exist."""
+        pass

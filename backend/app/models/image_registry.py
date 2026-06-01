@@ -31,7 +31,7 @@ class ImageRegistry(Base):
         default=uuid.uuid4
     )
 
-    object_url: Mapped[str] = mapped_column(
+    object_path: Mapped[str] = mapped_column(
         String(500),
         nullable=False,
         unique=True
@@ -43,7 +43,10 @@ class ImageRegistry(Base):
         default=ImageIngestionStates.PENDING.value,
         index=True
     )
-
+    content_type: Mapped[str] = mapped_column(
+        String(100),
+        nullable=False
+    )
     consent_type: Mapped[str] = mapped_column(
         String(32),
         nullable=False,
@@ -58,17 +61,17 @@ class ImageRegistry(Base):
     image_metadata = relationship(
         "ImageMetadata",
         back_populates="image_registry",
-        uselist=False
+        uselist=False,
     )
 
 class ImageMetadata(Base):
 
     __tablename__ = "image_metadata"
 
-    id: Mapped[int] = mapped_column(
-        Integer,
+    id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True),
         primary_key=True,
-        autoincrement=True
+        default=uuid.uuid4
     )
 
     image_registry_id: Mapped[uuid.UUID] = mapped_column(

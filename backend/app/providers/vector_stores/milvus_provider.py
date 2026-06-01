@@ -13,7 +13,7 @@ class MilvusVectorStoreProvider(BaseVectorStoreProvider):
         # Code to add vectors to Milvus collection
         pass
 
-    def search(self, embedding: list[float], top_k: int) -> list:
+    async def search(self, embedding: list[float], top_k: int) -> list:
         # Code to search for similar vectors in Milvus collection
         pass
 

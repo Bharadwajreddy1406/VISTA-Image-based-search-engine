@@ -1,9 +1,9 @@
 from fastapi import APIRouter, File, UploadFile
 
-from backend.app.providers.object_storages import ObjectStoreFactory
-from backend.app.providers.vector_stores import VectorStoreFactory
-from backend.app.services.image_handler_service import ImageHandlerService
-from backend.app.providers.embedding_provider import EmbeddingFactory
+from app.providers.object_storages import ObjectStoreFactory
+from app.providers.vector_stores import VectorStoreFactory
+from app.services.image_handler_service import ImageHandlerService
+from app.providers.embedding_provider import EmbeddingFactory
 
 router = APIRouter()
 object_store = ObjectStoreFactory.get_provider()
@@ -20,6 +20,6 @@ image_handler_service = ImageHandlerService(object_store=object_store,
 def search_test():
     return {"message": "Search API is working!"}
 
-@router.get("/search")
-def search():
-    return {"message": "Search API is working!"}
+@router.post("/search")
+async def search(file: UploadFile = File(...), user_consent: bool = False):
+    return await image_handler_service.search(file=file, user_consent=user_consent)

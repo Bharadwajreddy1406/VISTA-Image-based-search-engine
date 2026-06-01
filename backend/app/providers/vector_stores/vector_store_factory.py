@@ -11,7 +11,7 @@ class VectorStoreFactory:
         provider_type = settings.VECTOR_STORE_PROVIDER
 
         match provider_type:
-            case VectorStoreProviderChoices.MILVUS.value:
+            case VectorStoreProviderChoices.MILVUS:
                 from .milvus_provider import MilvusVectorStoreProvider
                 cls._provider = MilvusVectorStoreProvider()
             case _:

@@ -117,22 +117,6 @@ The current architecture is being designed around:
 
 ---
 
-## Project Structure
-
-```text
-app/
-├── api/
-├── core/
-│   └── enums.py
-├── models/
-├── providers/
-├── schemas/
-├── services/
-└── main.py
-```
-
----
-
 ## Design Principles
 
 The architecture is being developed with the following principles:
