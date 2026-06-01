@@ -22,3 +22,8 @@ class VectorStoreProviderChoices(Enum):
     MILVUS = "MILVUS"
     QDRANT = "QDRANT"
     PINECONE = "PINECONE"
+
+class EmbeddingProviderChoices(str, Enum):
+    CLIP = "CLIP"
+    OPEN_CLIP = "OPEN_CLIP"
+    SIGLIP = "SIGLIP"
