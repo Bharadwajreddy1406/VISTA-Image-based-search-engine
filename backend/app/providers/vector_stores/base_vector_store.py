@@ -6,7 +6,7 @@ class BaseVectorStoreProvider(ABC):
     def search(
         self,
         embedding: list[float],
-        top_k: int
+        top_k: int = None
     ):
         pass
 

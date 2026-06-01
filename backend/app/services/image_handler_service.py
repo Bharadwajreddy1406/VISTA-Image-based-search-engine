@@ -29,32 +29,47 @@ class ImageHandlerService:
         file_name = f"{datetime.utcnow().strftime('%Y-%m-%d')}/{uuid.uuid4()}.{file.filename.split('.')[-1]}"
         
         if user_consent:
-            object_path = self.object_store.upload_file(
-                file_data=image_bytes,
-                object_name=file_name,
-                content_type=file.content_type,
-            )
-            image_data = ImageRegistry(
-                id=uuid.uuid4(),
-                object_path=object_path,
-                content_type=file.content_type or "application/octet-stream",
-                status=ImageIngestionStates.PENDING.value,
-                consent_type=UserConsentTypes.YES.value,
-                created_at=datetime.utcnow(),
-            )
+            self.handle_user_consent(image_bytes, file_name, file)
 
-            with SessionLocal() as db:
-                try:
-                    db.add(image_data)
-                    db.commit()
-                    db.refresh(image_data)
-                except Exception:
-                    db.rollback()
-                    raise
 
         image_embedding = await self.embedding_service.get_embedding(image_bytes)
         search_results = await self.vector_store.search(image_embedding)
 
-        image_urls = self.get_image_urls(search_results)
+        image_urls = await get_image_urls(search_results)
 
         return {"results": image_urls}
+
+    def handle_user_consent(self, image_bytes: bytes, file_name: str, file: UploadFile):
+        object_path = self.object_store.upload_file(
+            file_data=image_bytes,
+            object_name=file_name,
+            content_type=file.content_type,
+        )
+        image_data = ImageRegistry(
+            id=uuid.uuid4(),
+            object_path=object_path,
+            content_type=file.content_type or "application/octet-stream",
+            status=ImageIngestionStates.PENDING.value,
+            consent_type=UserConsentTypes.YES.value,
+            created_at=datetime.utcnow(),
+        )
+
+        with SessionLocal() as db:
+            try:
+                db.add(image_data)
+                db.commit()
+                db.refresh(image_data)
+            except Exception:
+                db.rollback()
+                raise
+
+
+async def get_image_urls(search_results: list[str]) -> list[str]:
+    if len(search_results) == 0:
+        return []
+    image_ids = [result.id for result in search_results]
+
+    with SessionLocal() as db:
+        images = db.query(ImageRegistry).filter(ImageRegistry.id.in_(image_ids)).all()
+
+    return [image.object_path for image in images]
