@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from pymilvus import (
     MilvusClient,
     DataType
@@ -87,7 +89,7 @@ class MilvusVectorStoreProvider(
 
     def insert(
         self,
-        image_id: str,
+        image_id: str | UUID,
         embedding: list[float]
     ):
 
@@ -95,7 +97,7 @@ class MilvusVectorStoreProvider(
             collection_name=self.collection_name,
             data=[
                 {
-                    "id": image_id,
+                    "id": str(image_id),
                     "embedding": embedding
                 }
             ]

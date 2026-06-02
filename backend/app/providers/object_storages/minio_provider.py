@@ -43,10 +43,18 @@ class MinIOProvider(BaseObjectStorageProvider):
             self.client.make_bucket(self.bucket_name)
     
     def build_minio_connection_url(self, object_name: str) -> str:
-        """Build a presigned URL for accessing the object."""
+        """Build a URL for accessing the object."""
+        object_name = self._strip_bucket_prefix(object_name)
         protocol = "https" if self.endpoint.endswith(":443") else "http"
         url = f"{protocol}://{self.endpoint}/{self.bucket_name}/{object_name}"
         return url
+
+    def _strip_bucket_prefix(self, object_path: str) -> str:
+        """Normalize an object path to the MinIO object name."""
+        prefix = f"{self.bucket_name}/"
+        if object_path.startswith(prefix):
+            return object_path[len(prefix) :]
+        return object_path
 
     def upload_file(
         self,
@@ -54,7 +62,7 @@ class MinIOProvider(BaseObjectStorageProvider):
         object_name: str,
         content_type: str | None = None,
     ) -> str:
-        """Upload raw bytes to MinIO and return object path."""
+        """Upload raw bytes to MinIO and return the object path."""
 
         self.client.put_object(
             self.bucket_name,
@@ -63,14 +71,16 @@ class MinIOProvider(BaseObjectStorageProvider):
             length=len(file_data),
             content_type=content_type,
         )
-        return f"{self.bucket_name}/{object_name}"
+        return object_name
 
     def download_file(self, object_name: str, destination_path: str) -> None:
         """Download file from MinIO."""
+        object_name = self._strip_bucket_prefix(object_name)
         self.client.fget_object(self.bucket_name, object_name, destination_path)
 
     def object_exists(self, object_name: str) -> bool:
         """Check if object exists in MinIO."""
+        object_name = self._strip_bucket_prefix(object_name)
         try:
             self.client.stat_object(self.bucket_name, object_name)
             return True
@@ -78,12 +88,17 @@ class MinIOProvider(BaseObjectStorageProvider):
             return False
 
     def generate_obj_url(self, object_path: str) -> str:
-
-        object_name = object_path.split("/")[-1]
-        return self.client.get_presigned_url(self.bucket_name, object_name)
+        """Generate a presigned URL using the normalized object key."""
+        object_name = self._strip_bucket_prefix(object_path)
+        return self.client.get_presigned_url(
+            "GET",
+            self.bucket_name,
+            object_name,
+        )
 
     def delete_file(self, object_name: str) -> None:
         """Delete file from MinIO."""
+        object_name = self._strip_bucket_prefix(object_name)
         self.client.remove_object(self.bucket_name, object_name)
     
     def bucket_exists(self) -> bool:
