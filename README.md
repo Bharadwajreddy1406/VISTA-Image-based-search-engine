@@ -1,183 +1,96 @@
 # VISTA
 
-### Visual Intelligence Search and Tracking Architecture
+Visual Intelligence Search and Tracking Architecture.
 
-A scalable multimodal retrieval platform for semantic image and text search.
+Basically an image search engine. You upload a picture and it finds pictures that are similar in meaning, not just pixel matches. A beach photo should bring back other beach photos even if the colors and angles are totally different.
 
----
+Under the hood it uses CLIP to turn images into vectors and Milvus to find the nearest ones.
 
-## Overview
+![Architecture](backend/docs/images/architecture.png)
 
-VISTA is a multimodal semantic retrieval system designed to perform intelligent search across visual and textual data.
+## What it can do right now
 
-Instead of relying on filenames, tags, or exact image matching, VISTA focuses on semantic understanding — retrieving results based on contextual similarity and meaning.
+- Image to image search
+- Asks the user before saving their image. If they say no, nothing is stored
+- Saved images go through an ingestion step and become searchable for the next person
+- Stores some metadata per image (sha256, perceptual hash, size, width/height)
+- CLIP, Milvus and MinIO are behind small interfaces, so they can be swapped out later
+- Small React UI with drag and drop
 
-The platform is being built as a retrieval infrastructure system capable of supporting scalable image search, multimodal querying, intelligent ranking, and future recommendation systems.
+## Stack
 
----
+FastAPI, CLIP (HuggingFace + PyTorch), Milvus, MinIO, Postgres with SQLAlchemy, and React + Vite on the frontend. Postgres, MinIO and Milvus run through Docker Compose.
 
-## Features
+## Running it locally
 
-* Semantic Image Search
-* Image-to-Image Retrieval
-* Text-to-Image Retrieval
-* Multimodal Search Pipelines
-* Incremental Dataset Expansion
-* Embedding-Based Similarity Search
-* Scalable Storage and Retrieval Architecture
-* Asynchronous Ingestion Workflows
-* Modular and Extensible System Design
+You need Docker, Python 3.10+ and Node.
 
----
+**Services**
 
-## System Architecture
-
-VISTA is divided into two primary workflows:
-
-### 1. Dataset Ingestion Workflow
-
-Responsible for:
-
-* Collecting images
-* Processing uploaded data
-* Extracting embeddings
-* Storing metadata
-* Indexing searchable vectors
-* Expanding the searchable dataset
-
-This workflow continuously builds the semantic retrieval repository.
-
----
-
-### 2. Search Workflow
-
-Handles:
-
-* User image uploads
-* Text queries
-* Semantic similarity retrieval
-* Result ranking
-* Returning contextually relevant matches
-
-The retrieval system prioritizes semantic similarity over exact visual duplication.
-
----
-
-## Core Vision
-
-VISTA is designed to simulate the behavior of modern semantic retrieval systems used in:
-
-* Visual discovery platforms
-* Product similarity systems
-* Recommendation engines
-* Multimodal AI applications
-* Intelligent media retrieval systems
-
-The goal is to create a clean and scalable foundation for advanced retrieval infrastructure.
-
----
-
-## High-Level Architecture
-
-```text
-User Query
-     │
-     ▼
-API Layer
-     │
-     ▼
-Embedding Generation Service
-     │
-     ▼
-Vector Database Search
-     │
-     ▼
-Similarity Ranking
-     │
-     ▼
-Result Retrieval
+```bash
+cd backend
+cp .env.example .env
+docker-compose up -d
 ```
 
----
+Fill in the passwords in `.env` first. MinIO needs a license file, details are in [DOCKER_SETUP.md](backend/DOCKER_SETUP.md).
 
-## Tech Stack
+A couple of things that tripped me up:
+- if you run the backend on your machine (not in Docker), set the hosts in `.env` to `localhost`
+- `EMBEDDING_MODEL_NAME` has to be a HuggingFace id, e.g. `openai/clip-vit-base-patch32`
 
-The current architecture is being designed around:
+**Backend**
 
-| Component               | Technology                    |
-| ----------------------- | ----------------------------- |
-| Backend Framework       | FastAPI                       |
-| Vector Database         | Milvus                        |
-| Object Storage          | MinIO                         |
-| Embedding Models        | CLIP / Vision-Language Models |
-| Containerization        | Docker                        |
-| Orchestration (Planned) | Kubernetes                    |
-| Async Processing        | Background Workers            |
-| Database                | PostgreSQL (Metadata Storage) |
+```bash
+cd backend
+python -m venv venv
+venv\Scripts\activate        # mac/linux: source venv/bin/activate
+pip install -r requirements.txt
+uvicorn app.main:app --reload
+```
 
----
+First run takes a bit because CLIP downloads its weights. Swagger is at http://localhost:8000/docs
 
-## Design Principles
+**Frontend**
 
-The architecture is being developed with the following principles:
+```bash
+cd frontend
+cp .env.example .env
+npm install
+npm run dev
+```
 
-* Modularity
-* Scalability
-* Provider Abstraction
-* Infrastructure Portability
-* Asynchronous Processing
-* Maintainable System Design
-* Clear Separation of Responsibilities
+## Trying the API
 
----
+```bash
+curl -X POST "http://localhost:8000/images/search?user_consent=false" -F "file=@cat.jpg"
+```
 
-## Planned Enhancements
+You get back `{"results": [...]}` with image URLs. Set `user_consent=true` if you want the image added to the pool.
 
-Future improvements may include:
+## Docs
 
-* Hybrid text-image retrieval
-* Advanced ranking pipelines
-* Distributed indexing workflows
-* Recommendation systems
-* Metadata-based filtering
-* Real-time ingestion pipelines
-* Domain-specific retrieval systems
+If you want to know how it's put together:
 
----
+- [HLD](backend/docs/HLD.md) - overall design
+- [LLD](backend/docs/LLD.md) - code, classes, tables
+- [Flows](backend/docs/FLOW.md) - search and ingestion step by step
 
-## Long-Term Goal
+## What's next
 
-VISTA is intended to evolve beyond a simple image search engine into a production-grade multimodal retrieval infrastructure platform capable of supporting large-scale semantic search systems.
+Not built yet, but on the list:
 
-The project also serves as a learning platform for understanding:
-
-* Vector databases
-* Multimodal embeddings
-* Semantic retrieval systems
-* Distributed architectures
-* Scalable ingestion workflows
-* Retrieval optimization strategies
-
----
+- text to image search ("red sports car")
+- move ingestion to a background job / cron
+- use the hashes to skip duplicate uploads
+- proper health checks for the DBs
+- filters (date, type, size)
+- re-ranking
+- more providers like S3, Qdrant, SigLIP
+- tests, CI, maybe Kubernetes at some point
 
 ## Status
 
-The project is currently under active development.
+Still in progress. Search and ingestion both work end to end.
 
-Initial focus areas include:
-
-* Core retrieval workflows
-* Scalable ingestion pipelines
-* Vector indexing architecture
-* Storage abstraction
-* Search optimization
-
----
-
-## License
-
-This project is currently intended for educational and research purposes.
-
----
-
-Project Description Reference: 
+Made for learning and research.

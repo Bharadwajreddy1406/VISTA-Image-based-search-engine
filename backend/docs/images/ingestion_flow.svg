@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1620 368" width="1620" height="368">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#1e1e1e" />
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1620" height="368" fill="#ffffff" />
+  <rect x="40" y="124" width="210" height="108" rx="8" ry="8" fill="#ffd8a8" stroke="#e8590c" stroke-width="2" opacity="1" />
+  <rect x="330" y="124" width="170" height="108" rx="8" ry="8" fill="#ffd8a8" stroke="#e8590c" stroke-width="2" opacity="1" />
+  <rect x="580" y="112" width="240" height="132" rx="8" ry="8" fill="#b2f2bb" stroke="#2f9e44" stroke-width="2" opacity="1" />
+  <rect x="905" y="52" width="180" height="84" rx="8" ry="8" fill="#d0bfff" stroke="#7048e8" stroke-width="2" opacity="1" />
+  <rect x="1170" y="40" width="170" height="108" rx="8" ry="8" fill="#ffd8a8" stroke="#e8590c" stroke-width="2" opacity="1" />
+  <rect x="1420" y="40" width="160" height="108" rx="8" ry="8" fill="#a5d8ff" stroke="#1971c2" stroke-width="2" opacity="1" />
+  <rect x="900" y="196" width="190" height="132" rx="8" ry="8" fill="#ffc9c9" stroke="#e03131" stroke-width="2" opacity="1" />
+  <polyline points="250,178 330,178" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#arrowhead)" />
+  <polyline points="500,178 580,178" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#arrowhead)" />
+  <polyline points="820,178 905,94" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#arrowhead)" />
+  <polyline points="1085,94 1170,94" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#arrowhead)" />
+  <polyline points="1340,94 1420,94" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#arrowhead)" />
+  <polyline points="820,178 900,262" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#arrowhead)" />
+  <text x="145" y="174" font-family="Virgil, Segoe UI Emoji, Helvetica, Arial, sans-serif" font-size="16" fill="#e8590c" text-anchor="middle">
+    <tspan x="145" dy="0">Postgres: get all</tspan>
+    <tspan x="145" dy="20">PENDING images</tspan>
+  </text>
+  <text x="415" y="174" font-family="Virgil, Segoe UI Emoji, Helvetica, Arial, sans-serif" font-size="16" fill="#e8590c" text-anchor="middle">
+    <tspan x="415" dy="0">Download file</tspan>
+    <tspan x="415" dy="20">from MinIO</tspan>
+  </text>
+  <text x="700" y="164" font-family="Virgil, Segoe UI Emoji, Helvetica, Arial, sans-serif" font-size="16" fill="#2f9e44" text-anchor="middle">
+    <tspan x="700" dy="0">Extract metadata</tspan>
+    <tspan x="700" dy="20">(SHA256, pHash,</tspan>
+    <tspan x="700" dy="20">size, width, height)</tspan>
+  </text>
+  <text x="995" y="100" font-family="Virgil, Segoe UI Emoji, Helvetica, Arial, sans-serif" font-size="16" fill="#7048e8" text-anchor="middle">
+    <tspan x="995" dy="0">CLIP embedding</tspan>
+  </text>
+  <text x="1255" y="90" font-family="Virgil, Segoe UI Emoji, Helvetica, Arial, sans-serif" font-size="16" fill="#e8590c" text-anchor="middle">
+    <tspan x="1255" dy="0">Insert vector</tspan>
+    <tspan x="1255" dy="20">into Milvus</tspan>
+  </text>
+  <text x="1500" y="90" font-family="Virgil, Segoe UI Emoji, Helvetica, Arial, sans-serif" font-size="16" fill="#1971c2" text-anchor="middle">
+    <tspan x="1500" dy="0">Mark row</tspan>
+    <tspan x="1500" dy="20">PROCESSED</tspan>
+  </text>
+  <text x="995" y="248" font-family="Virgil, Segoe UI Emoji, Helvetica, Arial, sans-serif" font-size="16" fill="#e03131" text-anchor="middle">
+    <tspan x="995" dy="0">Any step fails:</tspan>
+    <tspan x="995" dy="20">rollback, log,</tspan>
+    <tspan x="995" dy="20">move to next</tspan>
+  </text>
+  <text x="290" y="183.25" font-family="Virgil, Segoe UI Emoji, Helvetica, Arial, sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle">
+    <tspan x="290" dy="0">for each</tspan>
+  </text>
+  <text x="860" y="225.25" font-family="Virgil, Segoe UI Emoji, Helvetica, Arial, sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle">
+    <tspan x="860" dy="0">error</tspan>
+  </text>
+</svg>

@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 492.5 1784" width="492.5" height="1784">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#1e1e1e" />
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="492.5" height="1784" fill="#ffffff" />
+  <rect x="177.5" y="40" width="230" height="108" rx="8" ry="8" fill="#dee2e6" stroke="#495057" stroke-width="2" opacity="1" />
+  <rect x="137.5" y="228" width="310" height="108" rx="8" ry="8" fill="#b2f2bb" stroke="#2f9e44" stroke-width="2" opacity="1" />
+  <rect x="152.5" y="416" width="280" height="84" rx="8" ry="8" fill="#b2f2bb" stroke="#2f9e44" stroke-width="2" opacity="1" />
+  <rect x="202.5" y="580" width="180" height="84" rx="8" ry="8" fill="#ffec99" stroke="#f08c00" stroke-width="2" opacity="1" />
+  <rect x="40" y="744" width="310" height="108" rx="8" ry="8" fill="#ffd8a8" stroke="#e8590c" stroke-width="2" opacity="1" />
+  <rect x="85" y="932" width="220" height="108" rx="8" ry="8" fill="#ffec99" stroke="#f08c00" stroke-width="2" opacity="1" />
+  <rect x="152.5" y="1120" width="280" height="84" rx="8" ry="8" fill="#d0bfff" stroke="#7048e8" stroke-width="2" opacity="1" />
+  <rect x="147.5" y="1284" width="290" height="108" rx="8" ry="8" fill="#ffd8a8" stroke="#e8590c" stroke-width="2" opacity="1" />
+  <rect x="132.5" y="1472" width="320" height="108" rx="8" ry="8" fill="#ffd8a8" stroke="#e8590c" stroke-width="2" opacity="1" />
+  <rect x="162.5" y="1660" width="260" height="84" rx="8" ry="8" fill="#a5d8ff" stroke="#1971c2" stroke-width="2" opacity="1" />
+  <polyline points="292.5,148 292.5,228" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#arrowhead)" />
+  <polyline points="292.5,336 292.5,416" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#arrowhead)" />
+  <polyline points="292.5,500 292.5,580" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#arrowhead)" />
+  <polyline points="292.5,664 195,744" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#arrowhead)" />
+  <polyline points="195,852 195,932" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#arrowhead)" />
+  <polyline points="195,1040 292.5,1120" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#arrowhead)" />
+  <polyline points="292.5,664 292.5,1120" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#arrowhead)" />
+  <polyline points="292.5,1204 292.5,1284" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#arrowhead)" />
+  <polyline points="292.5,1392 292.5,1472" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#arrowhead)" />
+  <polyline points="292.5,1580 292.5,1660" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#arrowhead)" />
+  <text x="292.5" y="90" font-family="Virgil, Segoe UI Emoji, Helvetica, Arial, sans-serif" font-size="16" fill="#495057" text-anchor="middle">
+    <tspan x="292.5" dy="0">User picks an image</tspan>
+    <tspan x="292.5" dy="20">and answers consent</tspan>
+  </text>
+  <text x="292.5" y="278" font-family="Virgil, Segoe UI Emoji, Helvetica, Arial, sans-serif" font-size="16" fill="#2f9e44" text-anchor="middle">
+    <tspan x="292.5" dy="0">POST /images/search</tspan>
+    <tspan x="292.5" dy="20">?user_consent=true or false</tspan>
+  </text>
+  <text x="292.5" y="464" font-family="Virgil, Segoe UI Emoji, Helvetica, Arial, sans-serif" font-size="16" fill="#2f9e44" text-anchor="middle">
+    <tspan x="292.5" dy="0">Check MinIO bucket is up</tspan>
+  </text>
+  <text x="292.5" y="628" font-family="Virgil, Segoe UI Emoji, Helvetica, Arial, sans-serif" font-size="16" fill="#f08c00" text-anchor="middle">
+    <tspan x="292.5" dy="0">Consent given?</tspan>
+  </text>
+  <text x="195" y="794" font-family="Virgil, Segoe UI Emoji, Helvetica, Arial, sans-serif" font-size="16" fill="#e8590c" text-anchor="middle">
+    <tspan x="195" dy="0">Upload to MinIO +</tspan>
+    <tspan x="195" dy="20">add PENDING row in Postgres</tspan>
+  </text>
+  <text x="195" y="982" font-family="Virgil, Segoe UI Emoji, Helvetica, Arial, sans-serif" font-size="16" fill="#f08c00" text-anchor="middle">
+    <tspan x="195" dy="0">Run ingestion now</tspan>
+    <tspan x="195" dy="20">(if CRONS = false)</tspan>
+  </text>
+  <text x="292.5" y="1168" font-family="Virgil, Segoe UI Emoji, Helvetica, Arial, sans-serif" font-size="16" fill="#7048e8" text-anchor="middle">
+    <tspan x="292.5" dy="0">CLIP: image to embedding</tspan>
+  </text>
+  <text x="292.5" y="1334" font-family="Virgil, Segoe UI Emoji, Helvetica, Arial, sans-serif" font-size="16" fill="#e8590c" text-anchor="middle">
+    <tspan x="292.5" dy="0">Milvus: top K similar IDs</tspan>
+    <tspan x="292.5" dy="20">(cosine)</tspan>
+  </text>
+  <text x="292.5" y="1522" font-family="Virgil, Segoe UI Emoji, Helvetica, Arial, sans-serif" font-size="16" fill="#e8590c" text-anchor="middle">
+    <tspan x="292.5" dy="0">Postgres: IDs to object paths</tspan>
+    <tspan x="292.5" dy="20">MinIO: presigned URLs</tspan>
+  </text>
+  <text x="292.5" y="1708" font-family="Virgil, Segoe UI Emoji, Helvetica, Arial, sans-serif" font-size="16" fill="#1971c2" text-anchor="middle">
+    <tspan x="292.5" dy="0">Return results: [urls]</tspan>
+  </text>
+  <text x="243.75" y="709.25" font-family="Virgil, Segoe UI Emoji, Helvetica, Arial, sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle">
+    <tspan x="243.75" dy="0">yes</tspan>
+  </text>
+  <text x="292.5" y="897.25" font-family="Virgil, Segoe UI Emoji, Helvetica, Arial, sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle">
+    <tspan x="292.5" dy="0">no</tspan>
+  </text>
+</svg>
